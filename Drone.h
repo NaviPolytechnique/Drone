@@ -6,36 +6,10 @@
 
 #include "ThreadStruct.h"
 #include "Communication.h"
-#include "IMU.h"
 #include "Point3D.hpp"
 #include "Message.h"
 #include "Autopilot.hpp"
 #include "EKF.h"
-
-
-//---------------------Variables Globales de Configuration--------------------//
-
-
-//********Fichiers de Config*******//
-
-
-
-//********Ports*******//
-char* Radio = "/dev/tty.usbserial-AL01838T";
-char* IMUport = "/dev/ttyUSB1";
-
-
-//********Threads*******//
-int mCheckerThread = 0;
-int xbeeListenerThread = 1;
-int mProcessorThread = 2;
-int mSenderThread = 3;
-int pingProcessorThread = 4;
-int eKFthread = 5;
-int autoPilotThread = 6;
-
-//********Paramètres PID*******//
-
 
 
 
@@ -59,7 +33,6 @@ class Drone {
 //********Fonctions d'initialisation*******//
     void start();
     void startCom();
-    void startIMU();//****************à implémenter***************************//
     void startAutoPilot();
     void startEKF();
     
@@ -91,8 +64,8 @@ class Drone {
     Point3D<uint16_t>* getAngleIncr();
     uint16_t* getAlt();
     uint16_t* getAltIncr();
-    uint8_t* getCharge();
-    uint8_t* getChargeIncr();
+    uint16_t* getCharge();
+    uint16_t* getChargeIncr();
   
     void setPos(uint16_t x, uint16_t y, uint16_t z);
     void setTarget(uint16_t x, uint16_t y, uint16_t z);
@@ -103,8 +76,8 @@ class Drone {
     void setSpeedIncr(uint16_t vx, uint16_t vy, uint16_t vz);
     void setAngleIncr(uint16_t a, uint16_t b, uint16_t c);
     void setAltIncr(uint16_t z);
-    void setCharge(uint8_t c);
-    void setChargeIncr(uint8_t c);
+    void setCharge(uint16_t c);
+    void setChargeIncr(uint16_t c);
 
 /*******************************************************/
     
@@ -139,9 +112,9 @@ class Drone {
     uint16_t* altincr;
     
     pthread_mutex_t charge_mutex;
-    uint8_t* charge;
+    uint16_t* charge;
     pthread_mutex_t chargeincr_mutex;
-    uint8_t* chargeincr;
+    uint16_t* chargeincr;
 
 };
 
